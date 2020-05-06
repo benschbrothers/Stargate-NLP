@@ -2,18 +2,62 @@ import os
 import numpy as np
 import requests
 
+from bs4 import BeautifulSoup
 
-url = 'http://www.stargate-sg1-solutions.com/wiki/1.01_%22Children_Of_The_Gods_Part_1%22_Transcript'
+#Crawl main Transcripts site
+url = 'http://www.stargate-sg1-solutions.com/wiki/Transcripts'
 html = requests.get(url)
 content = html.text
-f = open("Season1-1.txt", "a")
-
-start = content.split('<h2><span class="mw-headline" id="Transcript">Transcript</span></h2>')
-
-end = start[1].split('<h2><span class="mw-headline" id="Related_Articles">Related Articles</span></h2>')
+start = content.split('<h3><span class="mw-headline" id="Episode_Transcripts">Episode Transcripts</span></h3>')
+end = start[1].split('<h3><span class="mw-headline" id="Movie_Transcripts">Movie Transcripts</span></h3>')
 rawContent = end[0]
 
-print(rawContent)
+soup = BeautifulSoup(rawContent, "html.parser")
 
-f.write(rawContent)
-f.close()
+seasonURLs = []
+
+for seasons in soup.find_all('a', href=True):
+    seasonURLs.append("http://www.stargate-sg1-solutions.com" + seasons['href'])
+
+#Crawl the Season Sites
+for season in seasonURLs:
+    print("Crawling season: ", season)
+    url = season
+    html = requests.get(url)
+    content = html.text
+    start = content.split('<h2><span class="mw-headline" id="Note">Note</span></h2>')
+    end = start[1].split('<h2><span class="mw-headline" id="Related_Articles">Related Articles</span></h2>')
+    rawContentSeasons = end[0]
+
+    soupSeasons = BeautifulSoup(rawContentSeasons, "html.parser")
+
+    episodeURLs = []
+
+    for episodes in soupSeasons.find_all('a', href=True):
+        episodeURLs.append("http://www.stargate-sg1-solutions.com" + episodes['href'])
+
+    episodeURLs = list(dict.fromkeys(episodeURLs))
+
+    #Crawl each episode
+    for episode in episodeURLs:
+        url = episode
+        if("_Transcript" in url): 
+            html = requests.get(url)
+            content = html.text
+
+            start = content.split('<h2><span class="mw-headline" id="Transcript">Transcript</span></h2>')
+            end = start[1].split('<h2><span class="mw-headline" id="Related_Articles">Related Articles</span></h2>')
+            rawContent = end[0]
+
+            start = url.split('/wiki/')
+            end = start[1].split('_%')
+            episodeInfo = end[0].split('.')
+            episodeSeason = episodeInfo[0]
+            episodeNumber = episodeInfo[1]
+
+            print("Crawling episode: ", episodeNumber)
+            fileName = "HTML/"+ episodeSeason + "-" + episodeNumber + ".html"
+
+            f = open(fileName, "a")
+            f.write(rawContent)
+            f.close()
