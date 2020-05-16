@@ -19,6 +19,10 @@ seasonURLs = []
 for seasons in soup.find_all('a', href=True):
     seasonURLs.append("http://www.stargate-sg1-solutions.com" + seasons['href'])
 
+# create HTML folder if it does not exist
+if not os.path.exists('HTML'):
+    os.makedirs('HTML')
+
 #Crawl the Season Sites
 for season in seasonURLs:
     print("Crawling season: ", season)
@@ -58,6 +62,6 @@ for season in seasonURLs:
             print("Crawling episode: ", episodeNumber)
             fileName = "HTML/"+ episodeSeason + "-" + episodeNumber + ".html"
 
-            f = open(fileName, "a")
+            f = open(fileName, "w+")
             f.write(rawContent)
             f.close()
