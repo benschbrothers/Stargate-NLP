@@ -5,7 +5,7 @@ import csv
 
 # Define Seasons
 fromSeason = 1
-toSeason = 2
+toSeason = 10
 
 # Complete text will be stored in "completeCorpus"
 completeCorpus = ''
@@ -48,6 +48,10 @@ nlp = stanza.Pipeline('en', processors='tokenize,pos')
 
 # Run pipeline on episode
 doc = nlp(completeCorpus)
+
+# create POS folder if it does not exist
+if not os.path.exists('POS'):
+    os.makedirs('POS')
 
 # output words and write to csv file
 with open('POS/Pos-tags.csv', 'w', newline='') as file:

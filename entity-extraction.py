@@ -5,7 +5,7 @@ import csv
 
 # Define Seasons
 fromSeason = 1
-toSeason = 2
+toSeason = 10
 
 # Complete text will be stored in "completeCorpus"
 completeCorpus = ''
@@ -48,6 +48,10 @@ nlp = stanza.Pipeline('en')
 
 # Run pipeline on episode
 doc = nlp(completeCorpus)
+
+# create Entities folder if it does not exist
+if not os.path.exists('Entities'):
+    os.makedirs('Entities')
 
 # output words and write to csv file
 with open('Entities/Entities.csv', 'w', newline='') as file:
