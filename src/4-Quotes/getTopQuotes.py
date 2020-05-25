@@ -15,28 +15,31 @@ if not os.path.exists(Path):
 
 # Define Seasons
 fromSeason = 1
-toSeason = 1
-
-dictTopQuotesComplete= {} 
+toSeason = 10
 
 # regex for names
 regex = re.compile('[^a-zA-Z0-9]')
 
 targetPerson = "daniel"
-dictTopQuotes = {} 
+
+dictTopQuotes= {} 
+
 for S in range(fromSeason,toSeason+1):
     if(S < 8):
         maxEpisodes = 22
     else:
         maxEpisodes = 20
     
+    # Best Quotes of the Season
+    dictSeasonQuotes = {} 
     for E in range(1, maxEpisodes+1):
         if(E <10):
             filename = str(S)+"-"+"0"+str(E)
         else:
             filename = str(S)+"-"+str(E)
 
-        dictQuotes = {} 
+        # Best Quotes of the Episode
+        dictEpisodeQuotes = {} 
 
         with open(SrcPath + filename + ".csv") as csv_file:
             # read current CSV file
@@ -57,25 +60,38 @@ for S in range(fromSeason,toSeason+1):
 
                     if (name  == targetPerson):
                         quote = row[1].lower()
-                        if quote in dictQuotes:
-                            dictQuotes[quote] = dictQuotes[quote] + 1
+                        if quote in dictEpisodeQuotes:
+                            dictEpisodeQuotes[quote] = dictEpisodeQuotes[quote] + 1
                         else:
-                            dictQuotes[quote] = 1
+                            dictEpisodeQuotes[quote] = 1
 
         # Convert to list and sort
-        lQuotes = sorted(dictQuotes.items(), key=lambda x: x[1], reverse=True)
-        lQuotes = lQuotes[:20]
+        lEpisodeQuotes = sorted(dictEpisodeQuotes.items(), key=lambda x: x[1], reverse=True)
+        lEpisodeQuotes = lEpisodeQuotes[:20]
         # back to dictionary 
-        sorted_Quotes = dict(lQuotes)
+        sorted_EpisodeQuotes = dict(lEpisodeQuotes)
         # print(sorted_Quotes)
 
-        for quote, value in sorted_Quotes.items():
+        for quote, value in sorted_EpisodeQuotes.items():
+            # print(quote + " " + str(value))
+            if quote in dictSeasonQuotes:
+                dictSeasonQuotes[quote] = dictSeasonQuotes[quote] + value
+            else:
+                dictSeasonQuotes[quote] = value
+
+    lSeasonQuotes = sorted(dictSeasonQuotes.items(), key=lambda x: x[1], reverse=True)
+    lSeasonQuotes = lSeasonQuotes[:50]
+    sorted_SeasonQuotes = dict(lSeasonQuotes)
+    # print(sorted_SeasonQuotes)
+
+    for quote, value in sorted_SeasonQuotes.items():
             # print(quote + " " + str(value))
             if quote in dictTopQuotes:
                 dictTopQuotes[quote] = dictTopQuotes[quote] + value
             else:
                 dictTopQuotes[quote] = value
 
-    lTopQuotes = sorted(dictTopQuotes.items(), key=lambda x: x[1], reverse=True)
-    sorted_TopQuotes = dict(lTopQuotes)
-    print(sorted_TopQuotes)
+lTopQuotes = sorted(dictTopQuotes.items(), key=lambda x: x[1], reverse=True)
+lTopQuotes = lTopQuotes[:40]
+sorted_TopQuotes = dict(lTopQuotes)
+print(sorted_TopQuotes)
