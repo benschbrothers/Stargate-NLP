@@ -2,6 +2,20 @@ import csv
 import re
 import os
 
+# work path
+Path = 'Data/4-Entities/counts'
+
+# src path
+SrcPath = 'Data/4-Entities/RAW'
+
+# create workdir folder if it does not exist
+if not os.path.exists(Path):
+    os.makedirs(Path)
+
+# create episodes folder if it does not exist
+if not os.path.exists(Path + '/episodes'):
+    os.makedirs(Path + '/episodes')
+
 # regex for names
 regex = re.compile('[^a-zA-Z0-9]')
 
@@ -31,7 +45,7 @@ for S in range(fromSeason,toSeason+1):
         dictProduct = {}
         dictPlaces = {}
 
-        with open('Entities/episodes/' + filename + ".csv") as csv_file:
+        with open(SrcPath + '/' + filename + ".csv") as csv_file:
             # read current CSV file
             csv_reader = csv.reader(csv_file, delimiter=',')
             # start with first line 
@@ -104,15 +118,9 @@ for S in range(fromSeason,toSeason+1):
                         else:
                             dictPlacesComplete[name] = 1
                     line_count += 1
-            print(f'Processed file {filename} with {line_count} lines.')
+            print(f'Processed file {filename} with {line_count} lines.')   
 
-        # print(dictPersons)
-
-        # create Entities folder if it does not exist
-        if not os.path.exists('Entities/counts/episodes'):
-            os.makedirs('Entities/counts/episodes')
-
-        Path = 'Entities/counts/episodes/'
+        episodePath = Path + '/episodes/'
 
         # Convert to lists and sort
         lPer = sorted(dictPersons.items(), key=lambda x: x[1], reverse=True)
@@ -127,7 +135,7 @@ for S in range(fromSeason,toSeason+1):
         sorted_Orgs = dict(lOrg)
 
         # Write Persons to file
-        csv_file = Path + filename + "-Persons.csv"
+        csv_file = episodePath + filename + "-Persons.csv"
         csv_columns = ['Name','Count']
 
         with open(csv_file, 'w', newline='') as csvfile:
@@ -137,7 +145,7 @@ for S in range(fromSeason,toSeason+1):
                 writer.writerow([key, value])
 
         # Write Places to file
-        csv_file = Path + filename + "-Places.csv"
+        csv_file = episodePath + filename + "-Places.csv"
         csv_columns = ['Name','Count']
 
         with open(csv_file, 'w', newline='') as csvfile:
@@ -147,7 +155,7 @@ for S in range(fromSeason,toSeason+1):
                 writer.writerow([key, value])
 
         # Write Organisations to file
-        csv_file = Path + filename + "-Orgs.csv"
+        csv_file = episodePath + filename + "-Orgs.csv"
         csv_columns = ['Name','Count']
 
         with open(csv_file, 'w', newline='') as csvfile:
@@ -158,7 +166,7 @@ for S in range(fromSeason,toSeason+1):
 
 
         # Write Products to file
-        csv_file = Path + filename + "-Products.csv"
+        csv_file = episodePath + filename + "-Products.csv"
         csv_columns = ['Name','Count']
 
         with open(csv_file, 'w', newline='') as csvfile:
@@ -166,12 +174,6 @@ for S in range(fromSeason,toSeason+1):
             writer.writerow(csv_columns)
             for key, value in sorted_Products.items():
                 writer.writerow([key, value])
-
- # create Entities folder if it does not exist
-if not os.path.exists('Entities/counts/'):
-    os.makedirs('Entities/counts/')
-
-PathC = 'Entities/counts//'
 
 # Convert to lists and sort
 lPerC = sorted(dictPersonsComplete.items(), key=lambda x: x[1], reverse=True)
@@ -186,7 +188,7 @@ sorted_PlacesC = dict(lPlaC)
 sorted_OrgsC = dict(lOrgC)
 
 # Write Persons to file
-csv_file = PathC + filename + "-Persons.csv"
+csv_file = Path + "/" + "Persons.csv"
 csv_columns = ['Name','Count']
 
 with open(csv_file, 'w', newline='') as csvfile:
@@ -196,7 +198,7 @@ with open(csv_file, 'w', newline='') as csvfile:
         writer.writerow([key, value])
 
 # Write Places to file
-csv_file = PathC + filename + "-Places.csv"
+csv_file = Path + "/" + "Places.csv"
 csv_columns = ['Name','Count']
 
 with open(csv_file, 'w', newline='') as csvfile:
@@ -206,7 +208,7 @@ with open(csv_file, 'w', newline='') as csvfile:
         writer.writerow([key, value])
 
 # Write Organisations to file
-csv_file = PathC + filename + "-Orgs.csv"
+csv_file = Path + "/" + "Orgs.csv"
 csv_columns = ['Name','Count']
 
 with open(csv_file, 'w', newline='') as csvfile:
@@ -217,7 +219,7 @@ with open(csv_file, 'w', newline='') as csvfile:
 
 
 # Write Products to file
-csv_file = PathC + filename + "-Products.csv"
+csv_file = Path + "/" + "Products.csv"
 csv_columns = ['Name','Count']
 
 with open(csv_file, 'w', newline='') as csvfile:
