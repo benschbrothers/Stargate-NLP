@@ -9,7 +9,7 @@ SrcPath = 'Data/6-Quotes/'
 
 print('Parsing HTML to readable Quote CSVs')
 # Parsing all Quotes from HTML to cleaned CSVs
-# os.system('python ' + Path + 'getQuotes.py')
+os.system('python ' + Path + 'getQuotes.py')
 
 print('Analyzing Protagonists...')
 # Get every talking Person and count their quotes
