@@ -46,6 +46,9 @@ def cleanElement(quote):
     if(quote[0] == ' '):
         quote = quote[1:]
 
+    # we use ',' as CSV seperator so replace it with space
+    quote = quote.replace(',', ' ')
+
     return quote
 
 for S in range(fromSeason,toSeason+1):

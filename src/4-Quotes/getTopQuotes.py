@@ -3,6 +3,16 @@ import stanza
 from bs4 import BeautifulSoup
 import csv
 import re
+import sys
+
+# Set default target person to oneill
+targetPerson = "oneill"
+
+# Get the target person
+if(len(sys.argv) == 2):
+    targetPerson = sys.argv[1]
+else:
+    print("no target person specified! taking oneill")
 
 # WorkDir
 Path = 'Data/6-Quotes/'
@@ -19,8 +29,6 @@ toSeason = 10
 
 # regex for names
 regex = re.compile('[^a-zA-Z0-9]')
-
-targetPerson = "daniel"
 
 dictTopQuotes= {} 
 
@@ -92,6 +100,16 @@ for S in range(fromSeason,toSeason+1):
                 dictTopQuotes[quote] = value
 
 lTopQuotes = sorted(dictTopQuotes.items(), key=lambda x: x[1], reverse=True)
-lTopQuotes = lTopQuotes[:40]
 sorted_TopQuotes = dict(lTopQuotes)
-print(sorted_TopQuotes)
+# print(sorted_TopQuotes)
+
+# Write Places to file
+csv_file = Path + targetPerson + "TopQuotes.csv"
+csv_columns = ['Quote','Count']
+
+with open(csv_file, 'w', newline='') as csvfile:
+    writer = csv.writer(csvfile)
+    writer.writerow(csv_columns)
+    for key, value in sorted_TopQuotes.items():
+        if(value >= 4):
+            writer.writerow([key, value])
