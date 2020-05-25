@@ -3,6 +3,12 @@ import stanza
 from bs4 import BeautifulSoup
 import csv
 
+# Workdir
+Path = 'Data/5-POS'
+
+# Src dir
+srcPath = 'Data/1-HTML'
+
 # Define Seasons test
 fromSeason = 1
 toSeason = 10
@@ -25,7 +31,7 @@ for S in range(fromSeason,toSeason+1):
         print("Parsing:" + filename)
 
         # Read season 1 episode 1 test file
-        f = open('HTML/' + filename, 'r',  errors='ignore')
+        f = open(srcPath + '/' + filename, 'r',  errors='ignore')
         episode = f.read()
 
         # Parse to remove all html tags
@@ -54,7 +60,7 @@ if not os.path.exists('POS'):
     os.makedirs('POS')
 
 # output words and write to csv file
-with open('POS/Pos-tags.csv', 'w', newline='') as file:
+with open(Path + '/Pos-tags.csv', 'w', newline='') as file:
     writer = csv.writer(file)
     writer.writerow(["Text", "Upos", "Xpos"])
     for sentence in doc.sentences:

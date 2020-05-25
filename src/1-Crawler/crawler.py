@@ -4,6 +4,9 @@ import requests
 
 from bs4 import BeautifulSoup
 
+# Work dir
+Path = 'Data/1-HTML'
+
 #Crawl main Transcripts site
 url = 'http://www.stargate-sg1-solutions.com/wiki/Transcripts'
 html = requests.get(url)
@@ -20,8 +23,8 @@ for seasons in soup.find_all('a', href=True):
     seasonURLs.append("http://www.stargate-sg1-solutions.com" + seasons['href'])
 
 # create HTML folder if it does not exist
-if not os.path.exists('HTML'):
-    os.makedirs('HTML')
+if not os.path.exists(Path):
+    os.makedirs(Path)
 
 #Crawl the Season Sites
 for season in seasonURLs:
@@ -60,7 +63,7 @@ for season in seasonURLs:
             episodeNumber = episodeInfo[1]
 
             print("Crawling episode: ", episodeNumber)
-            fileName = "HTML/"+ episodeSeason + "-" + episodeNumber + ".html"
+            fileName = Path + "/"+ episodeSeason + "-" + episodeNumber + ".html"
 
             f = open(fileName, "w+")
             f.write(rawContent)
