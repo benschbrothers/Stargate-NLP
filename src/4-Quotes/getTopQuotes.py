@@ -15,7 +15,7 @@ else:
     print("no target person specified! taking oneill")
 
 # WorkDir
-Path = 'Data/6-Quotes/'
+Path = 'Data/6-Quotes/Top/'
 # SrcDir
 SrcPath = 'Data/6-Quotes/episodes/'
 
@@ -75,7 +75,7 @@ for S in range(fromSeason,toSeason+1):
 
         # Convert to list and sort
         lEpisodeQuotes = sorted(dictEpisodeQuotes.items(), key=lambda x: x[1], reverse=True)
-        lEpisodeQuotes = lEpisodeQuotes[:20]
+        lEpisodeQuotes = lEpisodeQuotes[:50]
         # back to dictionary 
         sorted_EpisodeQuotes = dict(lEpisodeQuotes)
         # print(sorted_Quotes)
@@ -104,7 +104,7 @@ sorted_TopQuotes = dict(lTopQuotes)
 # print(sorted_TopQuotes)
 
 # Write Places to file
-csv_file = Path + targetPerson + "TopQuotes.csv"
+csv_file = Path + targetPerson + "-TopQuotes.csv"
 csv_columns = ['Quote','Count']
 
 with open(csv_file, 'w', newline='') as csvfile:

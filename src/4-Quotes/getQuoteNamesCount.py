@@ -91,7 +91,7 @@ sorted_Names = dict(lNames)
 # print(sorted_TopQuotes)
 
 # Write Places to file
-csv_file = Path + "1-ListNames.csv"
+csv_file = Path + "ListNames.csv"
 csv_columns = ['Quote','Count']
 
 with open(csv_file, 'w', newline='') as csvfile:
