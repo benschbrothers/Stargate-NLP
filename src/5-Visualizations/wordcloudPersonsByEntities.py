@@ -4,29 +4,26 @@ from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 
 srcPath = 'Data/4-Entities/counts'
- 
-# Create a list of word
-TextBlock = ""
-with open(srcPath + '/' + 'Persons.csv') as csv_file:
-    # read current CSV file
-    csv_reader = csv.reader(csv_file, delimiter=',')
-    # start with first line 
+
+dictP = {}
+with open(srcPath + '/Persons_Clean.csv', mode='r') as infile:
+    reader = csv.reader(infile, delimiter=',')
     line_count = 0
-    for row in csv_reader:
+    for row in reader:
         # first line is the header
         if line_count == 0:
             line_count += 1
         # others are entities
         else:
-            count = int(row[1])
-            for i in range(count):
-                TextBlock += row[0] + " "
+            dictP[row[0]] = int(row[1])
 
+print(dictP)
 # Create the wordcloud object
-wordcloud = WordCloud(width=480, height=480, margin=0).generate(TextBlock)
+wordcloud = WordCloud(background_color="white", width=800, height=500, colormap='Blues')
+wordcloud.generate_from_frequencies(frequencies=dictP)
  
 # Display the generated image:
-plt.imshow(wordcloud, interpolation='bilinear')
+plt.imshow(wordcloud)
 plt.axis("off")
 plt.margins(x=0, y=0)
 plt.show()
