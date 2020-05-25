@@ -98,5 +98,5 @@ with open(csv_file, 'w', newline='') as csvfile:
     writer = csv.writer(csvfile)
     writer.writerow(csv_columns)
     for key, value in sorted_Names.items():
-        if(value >= 4):
+        if(key != 'nochar'):
             writer.writerow([key, value])
