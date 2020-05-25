@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 srcPath = 'Data/4-Entities/counts'
 
 dictP = {}
-with open(srcPath + '/Persons_Clean.csv', mode='r') as infile:
+with open(srcPath + '/Products_Clean.csv', mode='r') as infile:
     reader = csv.reader(infile, delimiter=',')
     line_count = 0
     for row in reader:
