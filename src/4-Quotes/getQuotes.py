@@ -3,16 +3,22 @@ import stanza
 from bs4 import BeautifulSoup
 import csv
 
+# WorkDir
+Path = 'Data/6-Quotes/episodes/'
+# SrcDir
+SrcPath = 'Data/1-HTML/'
+
+# create WorkDir folder if it does not exist
+if not os.path.exists(Path):
+    os.makedirs(Path)
+
+
 # Define Seasons
 fromSeason = 1
 toSeason = 10
 
 # Complete text will be stored in "completeCorpus"
 completeCorpus = ''
-
-# create POS folder if it does not exist
-if not os.path.exists('Data/Quotes'):
-    os.makedirs('Data/Quotes')
 
 def cleanQuote(quote):
     quote = quote.replace('<p>', '')
@@ -43,7 +49,7 @@ for S in range(fromSeason,toSeason+1):
         print("Parsing:" + filename)
 
         # Read season 1 episode 1 test file
-        f = open('HTML/' + filename, 'r',  errors='ignore')
+        f = open(SrcPath + filename, 'r',  errors='ignore')
         episode = f.read()
 
         # Parse to remove all html tags
@@ -56,7 +62,7 @@ for S in range(fromSeason,toSeason+1):
             savename = str(S)+"-"+str(E)
         
         # write Cites to CSV
-        with open('Data/Quotes/'+ savename+ '.csv', 'w', newline='') as file:
+        with open(Path + savename+ '.csv', 'w', newline='') as file:
             writer = csv.writer(file)
             writer.writerow(["Name", "Quote"])
 
@@ -81,7 +87,7 @@ for S in range(fromSeason,toSeason+1):
                     cites.append(cleanQuote(element))
 
             # write Cites to CSV
-            with open('Data/Quotes/'+ savename+ '.csv', 'a', newline='') as file:
+            with open(Path + savename+ '.csv', 'a', newline='') as file:
                 writer = csv.writer(file)
 
                 for cite in cites:
@@ -93,7 +99,7 @@ for S in range(fromSeason,toSeason+1):
         texts = soup.find_all(text=True)
 
         # write Texts to CSV
-        with open('Data/Quotes/'+ savename+ '.csv', 'a', newline='') as file:
+        with open(Path + savename+ '.csv', 'a', newline='') as file:
             writer = csv.writer(file)
 
             for text in texts:
