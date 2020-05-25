@@ -3,6 +3,15 @@ import stanza
 from bs4 import BeautifulSoup
 import csv
 
+# WorkDir
+Path = 'Data/4-Entities/RAW/'
+# SrcDir
+SrcPath = 'Data/1-HTML/'
+
+# create WorkDir folder if it does not exist
+if not os.path.exists(Path):
+    os.makedirs(Path)
+
 # Define Seasons
 fromSeason = 1
 toSeason = 10
@@ -15,10 +24,6 @@ stanza.download('en')
 
 # Setup stanza pipeline
 nlp = stanza.Pipeline('en')
-
-# create Entities folder if it does not exist
-if not os.path.exists('Entities/episodes'):
-    os.makedirs('Entities/episodes')
 
 for S in range(fromSeason,toSeason+1):
     if(S < 8):
@@ -35,7 +40,7 @@ for S in range(fromSeason,toSeason+1):
         print("Parsing:" + filename)
 
         # Read season 1 episode 1 test file
-        f = open('HTML/' + filename, 'r',  errors='ignore')
+        f = open(SrcPath + filename, 'r',  errors='ignore')
         episode = f.read()
 
         # Parse to remove all html tags
@@ -54,7 +59,7 @@ for S in range(fromSeason,toSeason+1):
             savename = str(S)+"-"+str(E)
         
         # output words and write to csv file
-        with open('Entities/episodes/'+ savename+ '.csv', 'w', newline='') as file:
+        with open(Path + savename+ '.csv', 'w', newline='') as file:
             writer = csv.writer(file)
             writer.writerow(["Entity", "Type"])
             for sentence in doc.sentences:

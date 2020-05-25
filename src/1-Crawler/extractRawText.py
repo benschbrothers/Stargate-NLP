@@ -15,7 +15,7 @@ toSeason = 10
 # Complete text will be stored in "completeCorpus"
 completeCorpus = ''
 
-# create POS folder if it does not exist
+# create WorkDir folder if it does not exist
 if not os.path.exists(Path):
     os.makedirs(Path)
 
