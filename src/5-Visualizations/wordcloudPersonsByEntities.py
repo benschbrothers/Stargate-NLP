@@ -22,7 +22,6 @@ with open(srcPath + '/' + 'Persons.csv') as csv_file:
             for i in range(count):
                 TextBlock += row[0] + " "
 
-print(TextBlock)
 # Create the wordcloud object
 wordcloud = WordCloud(width=480, height=480, margin=0).generate(TextBlock)
  
