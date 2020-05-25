@@ -5,17 +5,8 @@ import csv
 import re
 import sys
 
-# Set default target person to oneill
-targetPerson = "oneill"
-
-# Get the target person
-if(len(sys.argv) == 2):
-    targetPerson = sys.argv[1]
-else:
-    print("no target person specified! taking oneill")
-
 # WorkDir
-Path = 'Data/6-Quotes/Top/'
+Path = 'Data/6-Quotes/'
 # SrcDir
 SrcPath = 'Data/6-Quotes/episodes/'
 
@@ -30,7 +21,7 @@ toSeason = 10
 # regex for names
 regex = re.compile('[^a-zA-Z0-9]')
 
-dictTopQuotes= {} 
+dictNames= {} 
 
 for S in range(fromSeason,toSeason+1):
     if(S < 8):
@@ -39,7 +30,7 @@ for S in range(fromSeason,toSeason+1):
         maxEpisodes = 20
     
     # Best Quotes of the Season
-    dictSeasonQuotes = {} 
+    dictSeasonNames = {} 
     for E in range(1, maxEpisodes+1):
         if(E <10):
             filename = str(S)+"-"+"0"+str(E)
@@ -47,7 +38,7 @@ for S in range(fromSeason,toSeason+1):
             filename = str(S)+"-"+str(E)
 
         # Best Quotes of the Episode
-        dictEpisodeQuotes = {} 
+        dictEpisodeNames = {} 
 
         with open(SrcPath + filename + ".csv") as csv_file:
             # read current CSV file
@@ -66,50 +57,46 @@ for S in range(fromSeason,toSeason+1):
                     # remove characters that are not needed
                     name = regex.sub('', name)
 
-                    if (name  == targetPerson):
-                        quote = row[1].lower()
-                        if quote in dictEpisodeQuotes:
-                            dictEpisodeQuotes[quote] = dictEpisodeQuotes[quote] + 1
-                        else:
-                            dictEpisodeQuotes[quote] = 1
+                    if name in dictEpisodeNames:
+                        dictEpisodeNames[name] = dictEpisodeNames[name] + 1
+                    else:
+                        dictEpisodeNames[name] = 1
 
         # Convert to list and sort
-        lEpisodeQuotes = sorted(dictEpisodeQuotes.items(), key=lambda x: x[1], reverse=True)
-        lEpisodeQuotes = lEpisodeQuotes[:50]
+        lEpisodeNames = sorted(dictEpisodeNames.items(), key=lambda x: x[1], reverse=True)
         # back to dictionary 
-        sorted_EpisodeQuotes = dict(lEpisodeQuotes)
+        sorted_EpisodeNames = dict(lEpisodeNames)
         # print(sorted_Quotes)
 
-        for quote, value in sorted_EpisodeQuotes.items():
+        for name, value in sorted_EpisodeNames.items():
             # print(quote + " " + str(value))
-            if quote in dictSeasonQuotes:
-                dictSeasonQuotes[quote] = dictSeasonQuotes[quote] + value
+            if name in dictSeasonNames:
+                dictSeasonNames[name] = dictSeasonNames[name] + value
             else:
-                dictSeasonQuotes[quote] = value
+                dictSeasonNames[name] = value
 
-    lSeasonQuotes = sorted(dictSeasonQuotes.items(), key=lambda x: x[1], reverse=True)
-    lSeasonQuotes = lSeasonQuotes[:50]
-    sorted_SeasonQuotes = dict(lSeasonQuotes)
+    lSeasonNames = sorted(dictSeasonNames.items(), key=lambda x: x[1], reverse=True)
+    sorted_SeasonNames = dict(lSeasonNames)
     # print(sorted_SeasonQuotes)
 
-    for quote, value in sorted_SeasonQuotes.items():
+    for name, value in sorted_SeasonNames.items():
             # print(quote + " " + str(value))
-            if quote in dictTopQuotes:
-                dictTopQuotes[quote] = dictTopQuotes[quote] + value
+            if name in dictNames:
+                dictNames[name] = dictNames[name] + value
             else:
-                dictTopQuotes[quote] = value
+                dictNames[name] = value
 
-lTopQuotes = sorted(dictTopQuotes.items(), key=lambda x: x[1], reverse=True)
-sorted_TopQuotes = dict(lTopQuotes)
+lNames = sorted(dictNames.items(), key=lambda x: x[1], reverse=True)
+sorted_Names = dict(lNames)
 # print(sorted_TopQuotes)
 
 # Write Places to file
-csv_file = Path + targetPerson + "-TopQuotes.csv"
+csv_file = Path + "ListNames.csv"
 csv_columns = ['Quote','Count']
 
 with open(csv_file, 'w', newline='') as csvfile:
     writer = csv.writer(csvfile)
     writer.writerow(csv_columns)
-    for key, value in sorted_TopQuotes.items():
-        if(value >= 4):
+    for key, value in sorted_Names.items():
+        if(key != 'nochar'):
             writer.writerow([key, value])
