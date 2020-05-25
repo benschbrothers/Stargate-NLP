@@ -36,7 +36,7 @@ def cleanText(text):
 
 for S in range(fromSeason,toSeason+1):
     if(S < 8):
-        maxEpisodes = 1
+        maxEpisodes = 22
     else:
         maxEpisodes = 20 
     
