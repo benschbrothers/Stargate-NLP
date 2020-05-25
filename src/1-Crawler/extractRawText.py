@@ -3,6 +3,11 @@ import stanza
 from bs4 import BeautifulSoup
 import csv
 
+# WorkDir
+Path = 'Data/2-RawText/'
+# SrcDir
+SrcPath = 'Data/1-HTML/'
+
 # Define Seasons
 fromSeason = 1
 toSeason = 10
@@ -11,8 +16,8 @@ toSeason = 10
 completeCorpus = ''
 
 # create POS folder if it does not exist
-if not os.path.exists('RAW/'):
-    os.makedirs('RAW/')
+if not os.path.exists(Path):
+    os.makedirs(Path)
 
 for S in range(fromSeason,toSeason+1):
     if(S < 8):
@@ -29,7 +34,7 @@ for S in range(fromSeason,toSeason+1):
         print("Parsing:" + filename)
 
         # Read season 1 episode 1 test file
-        f = open('HTML/' + filename, 'r',  errors='ignore')
+        f = open(SrcPath + filename, 'r',  errors='ignore')
         episode = f.read()
 
         # Parse to remove all html tags
@@ -45,6 +50,6 @@ for S in range(fromSeason,toSeason+1):
             savename = str(S)+"-"+str(E)
         
         # Output Episode content without html tags
-        print(episodeWithoutTags,  file=open('RAW/'+savename+'.txt', 'w'))
+        print(episodeWithoutTags,  file=open(Path + savename+'.txt', 'w'))
         
 
