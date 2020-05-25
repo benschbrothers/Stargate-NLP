@@ -17,9 +17,6 @@ if not os.path.exists(Path):
 fromSeason = 1
 toSeason = 10
 
-# Complete text will be stored in "completeCorpus"
-completeCorpus = ''
-
 def cleanQuote(quote):
     quote = quote.replace('<p>', '')
     quote = quote.replace('</p>', '')
@@ -27,12 +24,29 @@ def cleanQuote(quote):
 
     return quote
 
-def cleanText(text):
-    text = text.replace('[', '')
-    text = text.replace(']', '')
-    text = text.replace('\n', '')
+def cleanText(quote):
+    quote = quote.replace('<i>', '')
+    quote = quote.replace('</i>', '')
+    quote = quote.replace('[', '')
+    quote = quote.replace(']', '')
+    quote = quote.replace('"', '')
+    quote = quote.replace('(', '')
+    quote = quote.replace(')', '')
+    quote = quote.replace('\n', '')
 
-    return text
+    quote = quote.replace('?', '.')
+    quote = quote.replace('!', '.')
+
+    return quote
+
+def cleanElement(quote):
+    if(quote[0] == ' '):
+        quote = quote[1:]
+    
+    if(quote[0] == ' '):
+        quote = quote[1:]
+
+    return quote
 
 for S in range(fromSeason,toSeason+1):
     if(S < 8):
@@ -84,7 +98,15 @@ for S in range(fromSeason,toSeason+1):
                     # first Element is always the name
                     name = cleanQuote(element)
                 else:
-                    cites.append(cleanQuote(element))
+                    element = cleanQuote(element)
+                    element = cleanText(element)
+
+                    # Get each Quote by Sentence (split by '.')
+                    element = element.split('.')
+                    
+                    for subElement in element:
+                        if(subElement != '.' and subElement != '' and subElement != ' '):
+                            cites.append(cleanElement(subElement))
 
             # write Cites to CSV
             with open(Path + savename+ '.csv', 'a', newline='') as file:
