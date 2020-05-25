@@ -54,7 +54,7 @@ for S in range(fromSeason,toSeason+1):
             savename = str(S)+"-"+str(E)
         
         # output words and write to csv file
-        with open('Entities/episodes'+ savename+ '.csv', 'w', newline='') as file:
+        with open('Entities/episodes/'+ savename+ '.csv', 'w', newline='') as file:
             writer = csv.writer(file)
             writer.writerow(["Entity", "Type"])
             for sentence in doc.sentences:
