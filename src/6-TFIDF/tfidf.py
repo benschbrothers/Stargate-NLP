@@ -3,7 +3,9 @@ import csv
 import re
 import sys
 import os
+import nltk
 
+from nltk.corpus import stopwords
 from sklearn.feature_extraction import text
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -124,8 +126,18 @@ def listToString(s):
 
 def keyWords(corpus, topN):
     
-    my_stop_words = text.ENGLISH_STOP_WORDS.union(["don", "ve", "ll", "just", "know", "uh", "did", "didn", "doesn", "going", "like"])
+    # my_stop_words = set( stopwords.words('english') ).union( set(text.ENGLISH_STOP_WORDS) )
 
+    # my_stop_words = my_stop_words.union(["dont", "im", "didnt", "your", "want", "thats", "just", "know", "youre", "going"])
+    my_stop_words2 = []
+    with open(Path+'stopwords.txt', encoding='utf-8') as file:
+        for line in file: 
+            line = line.replace("'", '')
+            line = line.replace('\n', '')
+            my_stop_words2.append(line) #storing everything in memory!
+
+    # print(my_stop_words2)
+    my_stop_words = frozenset(my_stop_words2)
     cv=CountVectorizer(max_df=0.9,stop_words=my_stop_words)
     #cv=CountVectorizer(max_df=0.85)
     word_count_vector=cv.fit_transform(corpus)
@@ -147,8 +159,9 @@ def keyWords(corpus, topN):
 
     return keywords
 
-dictP= keyWords(dictAllQuotes, 100)
 
+dictP= keyWords(dictAllQuotes, 100)
+print(dictP)
 # Create the wordcloud object
 wordcloud = WordCloud(background_color="black", width=800, height=500, colormap='Blues')
 wordcloud.generate_from_frequencies(frequencies=dictP)
