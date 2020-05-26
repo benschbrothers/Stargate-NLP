@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import csv
 import re
 import sys
@@ -10,6 +11,7 @@ from sklearn.feature_extraction import text
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
+from PIL import Image
 
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
@@ -27,6 +29,9 @@ else:
 Path = 'Data/7-TFIDF/'
 # SrcDir
 SrcPath = 'Data/6-Quotes/episodes/'
+
+# SrcDirGit
+SrcPathGit = 'Src/6-TFIDF/'
 
 # create WorkDir folder if it does not exist
 if not os.path.exists(Path):
@@ -130,7 +135,7 @@ def keyWords(corpus, topN):
 
     # my_stop_words = my_stop_words.union(["dont", "im", "didnt", "your", "want", "thats", "just", "know", "youre", "going"])
     my_stop_words2 = []
-    with open(Path+'stopwords.txt', encoding='utf-8') as file:
+    with open(SrcPathGit+'stopwords.txt', encoding='utf-8') as file:
         for line in file: 
             line = line.replace("'", '')
             line = line.replace('\n', '')
@@ -163,7 +168,8 @@ def keyWords(corpus, topN):
 dictP= keyWords(dictAllQuotes, 100)
 print(dictP)
 # Create the wordcloud object
-wordcloud = WordCloud(background_color="black", width=800, height=500, colormap='Blues')
+mask = np.array(Image.open(SrcPathGit+"mask.png"))
+wordcloud = WordCloud(background_color="black", width=800, height=500, colormap='Blues', mask=mask)
 wordcloud.generate_from_frequencies(frequencies=dictP)
  
 # Display the generated image:
