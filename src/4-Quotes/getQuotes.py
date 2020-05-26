@@ -21,6 +21,7 @@ def cleanQuote(quote):
     quote = quote.replace('<p>', '')
     quote = quote.replace('</p>', '')
     quote = quote.replace('\n', '')
+    quote = quote.replace("'", '')
 
     return quote
 
