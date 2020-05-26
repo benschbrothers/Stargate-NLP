@@ -116,8 +116,13 @@ for S in range(fromSeason,toSeason+1):
                         elif word in personsDict:
                             personsDict[word] += 1
 
+removedZeros = {}
+for person, count in personsDict.items():
+    if count != 0:
+        removedZeros[person] = count
+
 # Convert to lists and sort
-lPer = sorted(personsDict.items(), key=lambda x: x[1], reverse=True)
+lPer = sorted(removedZeros.items(), key=lambda x: x[1], reverse=True)
 
 # back to dictionary 
 sorted_Mentioned = dict(lPer)
@@ -126,7 +131,6 @@ if by:
     # Write Persons to file
     csv_file = Path + "/" + "by/" + byName + ".csv"
     csv_columns = ['Name','Count']
-
     with open(csv_file, 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(csv_columns)
