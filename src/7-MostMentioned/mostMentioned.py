@@ -4,7 +4,7 @@ import os
 import sys
 
 # work path
-Path = 'Data/7-MostMentioned'
+Path = 'Data/8-MostMentioned'
 
 # src path
 SrcPath = 'Data/6-Quotes'

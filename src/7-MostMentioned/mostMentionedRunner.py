@@ -2,7 +2,7 @@ import os
 import csv
 
 # WorkDir
-Path = 'Src/3-Entity'
+Path = 'Src/7-MostMentioned'
 
 # SrcDir
 SrcPath = 'Data/6-Quotes'
