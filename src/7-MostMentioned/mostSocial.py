@@ -57,4 +57,13 @@ lSoc = sorted(removedZeros.items(), key=lambda x: x[1], reverse=True)
 # back to dictionary 
 sorted_Social = dict(lSoc)
 
-print(sorted_Social)
+# print(sorted_Social)
+csv_columns = ['Name','Count']
+
+# Write happiness to csv file
+csv_file = Path + "/" + "MostSocial.csv"
+with open(csv_file, 'w', newline='') as csvfile:
+    writer = csv.writer(csvfile)
+        writer.writerow(csv_columns)
+    for key, value in sorted_Social.items():
+        writer.writerow([key, value])
