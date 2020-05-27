@@ -9,6 +9,9 @@ srcPath = 'Data/6-Quotes/'
 
 # SrcDirGit
 SrcPathGit = 'Src/6-TFIDF/'
+
+# MaskGit
+MaskPathGit = 'Resources/masks/'
  
 dictP = {}
 with open(srcPath + 'ListNames.csv', mode='r') as infile:
@@ -25,7 +28,7 @@ with open(srcPath + 'ListNames.csv', mode='r') as infile:
 # print(dictP)
 # Create the wordcloud object
 
-mask = np.array(Image.open(SrcPathGit+"mask.png"))
+mask = np.array(Image.open(MaskPathGit+"mask.png"))
 
 wordcloud = WordCloud(background_color="Black", width=800, height=500, colormap='Blues', mask=mask)
 wordcloud.generate_from_frequencies(frequencies=dictP)
