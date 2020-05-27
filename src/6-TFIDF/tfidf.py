@@ -33,6 +33,9 @@ SrcPath = 'Data/6-Quotes/episodes/'
 # SrcDirGit
 SrcPathGit = 'Src/6-TFIDF/'
 
+# MaskGit
+MaskPathGit = 'Resources/masks/'
+
 # create WorkDir folder if it does not exist
 if not os.path.exists(Path):
     os.makedirs(Path)
@@ -168,7 +171,14 @@ def keyWords(corpus, topN):
 dictP= keyWords(dictAllQuotes, 100)
 print(dictP)
 # Create the wordcloud object
-mask = np.array(Image.open(SrcPathGit+"mask.png"))
+if targetPerson == 'tealc':
+    mask = np.array(Image.open(MaskPathGit+"tealc.png"))
+elif targetPerson == 'carter':
+    mask = np.array(Image.open(MaskPathGit+"carter.png"))
+elif targetPerson == 'fraiser':
+    mask = np.array(Image.open(MaskPathGit+"fraiser.png"))
+else:
+    mask = np.array(Image.open(MaskPathGit+"mask.png"))
 wordcloud = WordCloud(background_color="black", width=800, height=500, colormap='Blues', mask=mask)
 wordcloud.generate_from_frequencies(frequencies=dictP)
  
