@@ -36,7 +36,7 @@ with open(SrcPath + '/' + "ListNames.csv") as csv_file:
         # others are entities
         else:
             # only add characters that have said more than 10 quotes in the series
-            if int(row[1]) >= 300:
+            if int(row[1]) >= 100:
                 personsHappiness[row[0]] = 0
 
 
