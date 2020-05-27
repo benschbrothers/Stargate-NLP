@@ -3,16 +3,14 @@ first all necessary dependencies must be installed:
 
 `pip install -r requirements.txt`
 
-## Preprocessing
-For this purpose the database is crawled into an HTML folder and cropped for further processing as far as possible:
+## Main Pipeline
+In order to run the main pipline please execute the main script
 
-`python crawler.py`
+`python main.py`
 
-## NLP
-Then the POS tagging script can be started, which accesses the cropped HTML data
+## Visualization
+After running the main script, run the visualization script to show the figures.
+Only one figure will show at a time
 
-`python pos-tagging.py`
+`python visualization.py`
 
-Some Named Entity Recogition (NER) can be done with
-
-`python entity-extraction.py`
