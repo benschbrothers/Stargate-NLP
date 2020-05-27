@@ -32,8 +32,8 @@ with open(SrcPath + "ListNames.csv") as csv_file:
         # others are persons
         else:
             line_count += 1
-            # just get the 50 first protagonists
-            if(line_count <= 50):
+            # just get the 40 first protagonists
+            if(line_count <= 40):
                 name = row[0].lower()
                 print('Analyzing Top Quotes: ' + name)
                 os.system('python ' + Path + 'getTopQuotes.py ' + name)

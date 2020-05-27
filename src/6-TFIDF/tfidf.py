@@ -17,13 +17,13 @@ from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 
 # Set default target person to oneill
-targetPerson = "oneill"
+targetPerson = "tealc"
 
 # Get the target person
 if(len(sys.argv) == 2):
     targetPerson = sys.argv[1]
 else:
-    print("no target person specified! taking oneill")
+    print("no target person specified! taking tealc")
 
 # WorkDir
 Path = 'Data/7-TFIDF/'
