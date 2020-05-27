@@ -9,7 +9,7 @@ SrcPath = 'Data/6-Quotes'
 
 print('Analyzing everything...')
 # create MostMentioned csv 
-os.system('python ' + Path + "/" 'mostMentioned.py')
+# os.system('python ' + Path + "/" 'mostMentioned.py')
 
 with open(SrcPath + '/' + "ListNames.csv") as csv_file:
     # read current CSV file
@@ -23,6 +23,7 @@ with open(SrcPath + '/' + "ListNames.csv") as csv_file:
         # others are entities
         else:
             # only add characters that have said more than 300 quotes in the series
-            if int(row[1]) >= 300:
+            if line_count <= 51:
                 print('Getting quotes for: ' + row[0])
                 os.system('python ' + Path + "/" 'mostMentioned.py' + " " + row[0])
+                line_count += 1
